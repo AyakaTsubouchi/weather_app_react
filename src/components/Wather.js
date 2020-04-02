@@ -9,23 +9,25 @@ class Weather extends Component {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
-        const API_KEY = 'a9d26cdce59f235872922cf298bfdd24';
+        const API_KEY = process.env.REACT_APP_OWM_API;
+        console.log(process.env.REACT_APP_OWM_API);
         const CurrentURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
 
         const apiCall = await fetch(CurrentURL);
         if (apiCall.status !== 200) console.log('something wrong');
 
         const response = await apiCall.json();
+        console.log(response);
 
-        this.setState({
-          temperature: response.main.temp,
-          city: response.name,
-          country: response.sys.country,
-          humidity: response.main.humidity,
-          description: response.weather[0].description,
-          error: ''
-        });
-        console.log(this.state);
+        // this.setState({
+        //   temperature: response.main.temp,
+        //   city: response.name,
+        //   country: response.sys.country,
+        //   humidity: response.main.humidity,
+        //   description: response.weather[0].description,
+        //   error: ''
+        // });
+        // console.log(this.state);
       });
     } else {
       console.log('geolocation IS NOT available');
