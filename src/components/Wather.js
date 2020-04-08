@@ -23,6 +23,7 @@ class Weather extends Component {
         const lon = position.coords.longitude;
 
         const API_KEY = process.env.REACT_APP_OWM_API;
+        //currtent weather
         const CurrentURL = `https://api.openweathermap.org/data/2.5/weather?`;
         const byGeo = `${CurrentURL}lat=${lat}&lon=${lon}&appid=${API_KEY}`;
 
@@ -42,6 +43,12 @@ class Weather extends Component {
           error: '',
         });
         console.log(this.state);
+        //weatherfocreast
+        const ForecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+        const forecastAPI = await fetch(ForecastURL);
+        if (forecastAPI.status !== 200) console.log('something wrong');
+        const forecastRes = await forecastAPI.json();
+        console.log('focast', forecastRes);
       });
     } else {
       console.log('geolocation IS NOT available');
@@ -50,6 +57,8 @@ class Weather extends Component {
 
   getWeatherByCity = async (propCity) => {
     //if form value is not null
+
+    //current weather
     const city = propCity;
     const API_KEY = 'a9d26cdce59f235872922cf298bfdd24';
     const CurrentURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
@@ -69,6 +78,13 @@ class Weather extends Component {
       description: response.weather[0].description,
       error: '',
     });
+    //forecast
+
+    const ForecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}`;
+    const forecastAPI = await fetch(ForecastURL);
+    if (forecastAPI.status !== 200) console.log('something wrong');
+    const forecastRes = await forecastAPI.json();
+    console.log('focastcity', forecastRes);
     console.log(this.state);
   };
 
