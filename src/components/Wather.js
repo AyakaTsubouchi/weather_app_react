@@ -2,11 +2,23 @@ import React, { Component } from 'react';
 import WeatherCard from './WeatherCard';
 
 class Weather extends Component {
-  state = {};
+  state = {
+    tempMax: '',
+    tempMin: '',
+    city: '',
+    country: '',
+    humidity: '',
+    description: '',
+    error: '',
+  };
+
+  componentDidMount() {
+    // this.getWeatherByGeo();
+  }
 
   getWeatherByGeo = async () => {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(async position => {
+      navigator.geolocation.getCurrentPosition(async (position) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
@@ -27,7 +39,7 @@ class Weather extends Component {
           country: response.sys.country,
           humidity: response.main.humidity,
           description: response.weather[0].description,
-          error: ''
+          error: '',
         });
         console.log(this.state);
       });
@@ -36,14 +48,9 @@ class Weather extends Component {
     }
   };
 
-  //   handleInput = e => {
-  //     this.setState({
-  //       city: e.target.value
-  //     });
-  //   };
-  getWeatherByCity = async () => {
+  getWeatherByCity = async (propCity) => {
     //if form value is not null
-    const city = 'London';
+    const city = propCity;
     const API_KEY = 'a9d26cdce59f235872922cf298bfdd24';
     const CurrentURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
 
@@ -60,7 +67,7 @@ class Weather extends Component {
       country: response.sys.country,
       humidity: response.main.humidity,
       description: response.weather[0].description,
-      error: ''
+      error: '',
     });
     console.log(this.state);
   };
@@ -75,6 +82,7 @@ class Weather extends Component {
           city={this.state.city}
           humidity={this.state.humidity}
           description={this.state.description}
+          getWeatherByCity={this.getWeatherByCity}
         />
       </div>
     );
